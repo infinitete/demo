@@ -27,15 +27,6 @@ public class UserController {
             return  Result.error("用户已被注册");
         }
 
-        // 判断请求参数中的用户名和密码是否符合规则
-        if (params.username.trim().length() < 6) {
-            return  Result.error("用户名不能包含空格且长度不应小于6个字符");
-        }
-
-        if (params.password.trim().length() < 8) {
-            return  Result.error("密码不能包含空格且长度不应小于8个字符");
-        }
-
         userService.register(params.username, params.password);
         return Result.success();
     }
