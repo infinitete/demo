@@ -1,4 +1,5 @@
 package com.example.demo.controller;
+import com.example.demo.form.RegisterParams;
 import com.example.demo.pojo.User;
 import com.example.demo.pojo.Result;
 import com.example.demo.service.impl.UserService;
@@ -16,24 +17,25 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public Result register(String user, String password) {
+    public Result register(RegisterParams params) {
         //查询用户
-        User u = userService.findByUser(user);
-        if (user != null && user.length() >= 5 && user.length() <= 16 && password != null && password.length() >= 5 && password.length() <= 16) {
-            if (u == null) {
-                //没有被占用
-                //注册
-                userService.register(user, password);
-                return Result.success();
-            } else {
-                //占用
-                return Result.error("用户名被占用");
-            }
+        User u = userService.findByUser(params.username);
 
+        if (u != null) {
+            return  Result.error("用户已被注册");
         }
-        else{
-            return Result.error("参数不合法");
+
+        // 判断请求参数中的用户名和密码是否符合规则
+        if (params.username.trim().length() < 6) {
+            return  Result.error("用户名不能包含空格且长度不应小于6个字符");
         }
+
+        if (params.password.trim().length() < 8) {
+            return  Result.error("密码不能包含空格且长度不应小于8个字符");
+        }
+
+        userService.register(params.username, params.password);
+        return Result.success();
     }
 
     @PostMapping("/login")

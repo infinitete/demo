@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface UserMapper {
 
-    @Select("select * from User WHERE user=#{user}")
+    @Select("select * from user WHERE user=#{user}")
     User findByUser(String user);
 
     @Insert("insert into user(user,password,createtime,updatetime)" + "Values(#{user},#{password},now(),now())")
