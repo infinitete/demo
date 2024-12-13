@@ -5,6 +5,7 @@ import com.example.demo.pojo.Result;
 import com.example.demo.service.impl.UserService;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public Result register(@RequestBody RegisterParams params) {
+    public Result register(@RequestBody @Validated RegisterParams params) {
         //查询用户
         User u = userService.findByUser(params.username);
 
